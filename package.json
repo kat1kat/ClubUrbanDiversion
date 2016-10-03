@@ -36,7 +36,13 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-app-event",
+    "cordova-plugin-badge",
+    "cordova-plugin-background-fetch",
+    "cordova-plugin-compat",
+    "onesignal-cordova-plugin",
+    "cordova-plugin-calendar"
   ],
   "cordovaPlatforms": [
     "ios",

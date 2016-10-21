@@ -1,6 +1,7 @@
 import {NavController, LoadingController, AlertController, Platform} from 'ionic-angular';
 import {Component} from '@angular/core';
-import {Http, Headers} from '@angular/http'
+import {Http, Headers} from '@angular/http';
+import {NgClass} from '@angular/common';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/retry';
@@ -24,7 +25,8 @@ interface Event {
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
-  pipes: [FormatDatePipe]
+  pipes: [FormatDatePipe],
+  directives: [NgClass]
 })
 export class HomePage {
   events: Array<Event> = null;
@@ -52,8 +54,8 @@ export class HomePage {
     loading.present();
     this.http
         .get(url)
-        .retry(1)
-        .timeout(5000)
+        .retry(21)
+        .timeout(10000)
         .map(res => res.json())
         .subscribe( (data) => {
           loading.dismiss();
@@ -65,6 +67,19 @@ export class HomePage {
           if (errorFn)
             errorFn(err);
         });
+  }
+
+  isToday(event: Event) {
+    let eDate = new Date(event.date);
+    let date = new Date();
+    eDate.setMinutes(eDate.getMinutes() + date.getTimezoneOffset());
+
+    let today = date.toJSON().slice(0,10);
+    let eventDate = eDate.toJSON().slice(0,10);
+    if (eventDate == today)
+      return true
+    else
+      return false;
   }
 
   openEvent(event: Event) {  

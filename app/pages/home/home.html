@@ -9,46 +9,48 @@
     <ion-refresher-content pullingIcon="arrow-down"></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="events">
-    <ion-card *ngFor="let event of events; let i = index">
-      <img src="{{ event.image }}"/>
-      <ion-card-content>
-        <ion-card-title>
-          {{ event.title }}
-        </ion-card-title>
+    <div *ngFor="let event of events; let i = index">
+      <ion-card [ngClass]="{'orange': isToday(event)}">
+        <img src="{{ event.image }}"/>
+        <ion-card-content>
+          <ion-card-title>
+            <span *ngIf="isToday(event)">TODAY: </span>{{ event.title }}
+          </ion-card-title>
+          <ion-row no-padding>
+            <ion-col>
+              {{ event.date|formatDate }}
+            </ion-col>
+            <ion-col text-right>
+              <ion-icon name='people'></ion-icon>
+              {{ event.attending }} going
+            </ion-col>
+          </ion-row>
+          <p>
+            {{ event.description }}
+          </p>
+        </ion-card-content>
+  
         <ion-row no-padding>
           <ion-col>
-            {{ event.date|formatDate }}
+            <button clear small danger (click)='openEvent(event)'>
+              <ion-icon name='add-circle'></ion-icon>
+              Register
+            </button>
+          </ion-col>
+          <ion-col text-center>
+            <button clear small danger (click)='addToCalendar(event)'>
+              <ion-icon name='calendar'></ion-icon>
+              Calendar
+            </button>
           </ion-col>
           <ion-col text-right>
-            <ion-icon name='people'></ion-icon>
-            {{ event.attending }} going
+            <button clear small danger (click)='shareEvent(event)'>
+              <ion-icon name='share-alt'></ion-icon>
+              Share
+            </button>
           </ion-col>
         </ion-row>
-        <p>
-          {{ event.description }}
-        </p>
-      </ion-card-content>
-
-      <ion-row no-padding>
-        <ion-col>
-          <button clear small danger (click)='openEvent(event)'>
-            <ion-icon name='add-circle'></ion-icon>
-            Register
-          </button>
-        </ion-col>
-        <ion-col text-center>
-          <button clear small danger (click)='addToCalendar(event)'>
-            <ion-icon name='calendar'></ion-icon>
-            Calendar
-          </button>
-        </ion-col>
-        <ion-col text-right>
-          <button clear small danger (click)='shareEvent(event)'>
-            <ion-icon name='share-alt'></ion-icon>
-            Share
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-card>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
